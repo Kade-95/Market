@@ -1,0 +1,38 @@
+ #checkout-page {
+     display: grid;
+     grid-template-rows: 1fr max-content;
+     align-items: center;
+     height: 100%;
+ }
+
+ .checkout-section {
+     display: none;
+ }
+
+ .checkout-section.active {
+     display: grid;
+ }
+
+ #checkout-buttons {
+     display: grid;
+     grid-template-columns: repeat(3, 1fr);
+     gap: var(--large-font);
+     padding: var(--large-font);
+     align-self: flex-end;
+ }
+
+ .checkout-single-button{
+    padding: var(--normal-font);
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: var(--normal-font);
+    font-weight: bold;
+}
+
+#checkout-back, #checkout-next{
+    background-color: red;
+}
+
+#checkout-finish{
+    background-color: green;
+}
