@@ -6,6 +6,11 @@ export function Checkout() {
     self.buyer = { state: Object.keys(locations)[0], deliveryType: 'Door delivery' };
 
     self.display = (items) => {
+        if(Object.keys(items).length == 0){
+            alert('You have no item in Cart. Keep shopping');
+            return;
+        }
+        
         self.items = items;
         self.page = kerdx.createElement({
             element: 'div', attributes: { id: 'checkout-page' }, children: [

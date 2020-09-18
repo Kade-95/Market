@@ -47,6 +47,18 @@ self.render = () => {
         }
     });
 
+    header.find('#search-box').onChanged(value => {
+        let itemsList = document.body.findAll('.single-item');
+        for (let item of itemsList) {
+            if (item.dataset.name.toLowerCase().includes(value.toLowerCase())) {
+                item.cssRemove(['display']);
+            }
+            else {
+                item.css({ display: 'none' });
+            }
+        }
+    });
+
     self.route();
 }
 

@@ -74,7 +74,7 @@ export function Cart() {
                                             { element: 'img', attributes: { class: 'cart-item-image', src: self.items[name].image } },
 
                                         ]
-                                    }, 
+                                    },
                                     { element: 'a', attributes: { class: 'cart-item-data' }, text: self.items[name].name },
                                     { element: 'a', attributes: { class: 'cart-item-data cart-item-count' }, text: self.items[name].count },
                                     { element: 'a', attributes: { class: 'cart-item-data cart-item-cost' }, text: self.items[name].cost },
@@ -183,6 +183,10 @@ export function Cart() {
                 popUp.remove();
             }
             else if (event.target.id == 'cart-checkout') {
+                if (Object.keys(self.items).length == 0) {
+                    alert('You have no item in Cart. Keep shopping');
+                    return;
+                }
                 popUp.remove();
                 checkout.display(self.items);
             }

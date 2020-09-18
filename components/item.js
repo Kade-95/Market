@@ -37,6 +37,9 @@ export function Item(details) {
             else if (event.target.classList.contains('single-item-remove')) {
                 self.removeFromCart();
             }
+            else {
+                self.display();
+            }
         });
 
         return self.element;
@@ -56,6 +59,37 @@ export function Item(details) {
             self.element.find('.single-item-count').textContent = currentQuantity - count;
             cart.reduce(self.name, count);
         }
+    }
+
+    self.display = () => {
+        self.page = kerdx.createElement({
+            element: 'div', attributes: { class: 'single-item-page' }, children: [
+                self.element.cloneNode(true),
+                {
+                    element: 'span', attributes: { class: 'single-item-description-container' }, children: [
+                        { element: 'a', attributes: { class: 'single-item-name' }, text: 'Description' },
+                        {
+                            element: 'span', attributes: { class: 'single-item-description' }, children: (() => {
+                                let descriptionList = [];
+                                for (let desc of self.description || []) {
+                                    descriptionList.push(kerdx.createElement({
+                                        element: 'span', attributes: { class: 'single-item-description-block' }, children: [
+                                            { element: 'i', attributes: { class: 'fas fa-arrow-right' } },
+                                            { element: 'a', attributes: { class: 'single-item-description-value' }, text: desc }
+                                        ]
+                                    }))
+                                }
+                                return descriptionList;
+                            })()
+                        }
+                    ]
+                }
+            ]
+        });
+
+        let popUp = kerdx.popUp(self.page, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: `Item: ${self.name}` });
+
+
     }
 
     return self;

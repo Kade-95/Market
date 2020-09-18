@@ -12,7 +12,10 @@ export let data = [
             "Samsung",
             "A1"
         ],
-        image: "images/samsung A1.png"
+        image: "images/samsung A1.png",
+        description: [
+            'Hello world'
+        ]
     },
     {
         name: "Kendo",
