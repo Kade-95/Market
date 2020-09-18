@@ -68,14 +68,19 @@ export function Cart() {
                         for (let name in self.items) {
                             itemList.push(kerdx.createElement({
                                 element: 'span', attributes: { class: 'cart-item', 'data-name': name }, children: [
-                                    { element: 'a', attributes: { class: 'cart-item-sn' }, text: count },
-                                    { element: 'img', attributes: { class: 'cart-item-image', src: self.items[name].image } },
-                                    { element: 'a', attributes: { class: 'cart-item-name' }, text: self.items[name].name },
-                                    { element: 'a', attributes: { class: 'cart-item-count' }, text: self.items[name].count },
-                                    { element: 'a', attributes: { class: 'cart-item-cost' }, text: self.items[name].cost },
-                                    { element: 'i', attributes: { class: 'fas fa-arrow-up cart-item-add' } },
-                                    { element: 'i', attributes: { class: 'fas fa-arrow-down cart-item-reduce' } },
-                                    { element: 'i', attributes: { class: 'fas fa-times cart-item-remove' } }
+                                    { element: 'a', attributes: { class: 'cart-item-data' }, text: count },
+                                    {
+                                        element: 'a', attributes: { class: 'cart-item-data' }, children: [
+                                            { element: 'img', attributes: { class: 'cart-item-image', src: self.items[name].image } },
+
+                                        ]
+                                    }, 
+                                    { element: 'a', attributes: { class: 'cart-item-data' }, text: self.items[name].name },
+                                    { element: 'a', attributes: { class: 'cart-item-data cart-item-count' }, text: self.items[name].count },
+                                    { element: 'a', attributes: { class: 'cart-item-data cart-item-cost' }, text: self.items[name].cost },
+                                    { element: 'i', attributes: { class: 'fas fa-arrow-up cart-item-add cart-item-data' } },
+                                    { element: 'i', attributes: { class: 'fas fa-arrow-down cart-item-reduce cart-item-data' } },
+                                    { element: 'i', attributes: { class: 'fas fa-times cart-item-remove cart-item-data' } }
                                 ]
                             }));
                             count++;
@@ -159,16 +164,18 @@ export function Cart() {
                     return content.name == name;
                 });
 
-                item.removeFromCart(singleItem.find('.cart-item-count').textContent);
+                item.removeFromCart(self.items[singleItem.dataset.name].count);
                 singleItem.remove();
 
                 if (Object.keys(self.items).length == 0) {
+                    popUp.remove();
                     self.page.replaceWith(self.display());
                 }
                 self.updateTotal();
             }
             else if (event.target.id == 'cart-clear') {
                 self.clear();
+                popUp.remove();
                 self.page.replaceWith(self.display());
                 self.updateTotal();
             }
@@ -176,6 +183,7 @@ export function Cart() {
                 popUp.remove();
             }
             else if (event.target.id == 'cart-checkout') {
+                popUp.remove();
                 checkout.display(self.items);
             }
         });
