@@ -7,7 +7,7 @@ export function Item(details) {
                 { element: 'img', attributes: { class: 'single-item-image', src: self.image } },
                 {
                     element: 'span', attributes: { class: 'single-item-details' }, children: [
-                        { element: 'a', attributes: { class: 'single-item-name' }, text: self.name },
+                        { element: 'span', attributes: { class: 'single-item-name' }, text: self.name },
                         {
                             element: 'span', attributes: { class: 'single-item-other-details' }, children: [
                                 { element: 'a', attributes: { class: 'single-item-price' }, text: `#${self.price}` },
@@ -48,17 +48,21 @@ export function Item(details) {
     self.addToCart = (count = 1) => {
         let currentQuantity = Math.floor(self.element.find('.single-item-count').textContent);
         if (self.quantity > currentQuantity) {
-            self.element.find('.single-item-count').textContent = currentQuantity + count;
+            currentQuantity = currentQuantity + count;
+            self.element.find('.single-item-count').textContent = currentQuantity;
             cart.add(self.name, count);
         }
+        return currentQuantity;
     }
 
     self.removeFromCart = (count = 1) => {
         let currentQuantity = Math.floor(self.element.find('.single-item-count').textContent);
         if (0 < currentQuantity) {
-            self.element.find('.single-item-count').textContent = currentQuantity - count;
+            currentQuantity = currentQuantity - count;
+            self.element.find('.single-item-count').textContent = currentQuantity;
             cart.reduce(self.name, count);
         }
+        return currentQuantity;
     }
 
     self.display = () => {
@@ -89,7 +93,14 @@ export function Item(details) {
 
         let popUp = kerdx.popUp(self.page, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: `Item: ${self.name}` });
 
-
+        self.page.addEventListener('click', event => {
+            if (event.target.classList.contains('single-item-add')) {
+                self.page.find('.single-item-count').textContent = self.addToCart();
+            }
+            else if (event.target.classList.contains('single-item-remove')) {
+                self.page.find('.single-item-count').textContent = self.removeFromCart();
+            }
+        });
     }
 
     return self;

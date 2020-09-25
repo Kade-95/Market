@@ -265,6 +265,8 @@ export function Checkout() {
         reciept.find('#checkout-receipt-continue').addEventListener('click', event=>{
             popUp.remove();
         });
+
+        cart.clear();
     }
     return self;
 }

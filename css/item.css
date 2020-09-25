@@ -1,4 +1,4 @@
-.single-item-page{
+.single-item-page {
     display: grid;
     gap: var(--large-font);
     grid-template-rows: max-content max-content;
@@ -17,9 +17,10 @@
 
 .single-item {
     display: grid;
-    grid-template-rows: repeat(3, max-content);
+    grid-template-rows: min-content min-content min-content;
     border: 1px solid var(--secondary-color);
     align-items: baseline;
+    padding: var(--small-font);
 }
 
 .single-item-image {
@@ -29,28 +30,31 @@
 
 .single-item-details {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, max-content);
     gap: var(--normal-font);
     align-items: flex-start;
     padding: calc(var(--normal-font)/2);
 }
 
-.single-item-name{
+.single-item-name {
     font-size: var(--normal-font);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .single-item-other-details {
     display: grid;
-    grid-template-rows: repeat(2, max-content);
+    grid-template-columns: repeat(2, max-content);
     gap: calc(var(--normal-font)/2);
+    justify-content: space-between;
 }
 
-.single-item-price{
+.single-item-price {
     font-size: var(--small-font);
-    text-align: right;
 }
 
-.single-item-quantity{
+.single-item-quantity {
     font-size: var(--small-font);
     text-align: right;
 }
@@ -63,25 +67,30 @@
     padding: calc(var(--normal-font)/2);
 }
 
-.single-item-add, .single-item-remove{
+.single-item-add, .single-item-remove {
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
 
-.single-item-count{
+.single-item-count {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.single-item-description-container{
+.single-item-description-container {
     display: grid;
     gap: var(--large-font);
 }
 
-.single-item-description-block{
+.single-item-description {
+    display: grid;
+    gap: var(--large-font);
+}
+
+.single-item-description-block {
     display: grid;
     grid-template-columns: max-content 1fr;
     gap: var(--large-font);
