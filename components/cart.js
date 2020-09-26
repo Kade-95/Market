@@ -1,6 +1,5 @@
 import { Checkout } from './checkout.js';
 let checkout = new Checkout();
-
 export function Cart() {
     const self = { items: {} };
 
@@ -16,6 +15,9 @@ export function Cart() {
             self.items[name].count += Math.floor(count);
         }
         self.items[name].cost = self.items[name].price * self.items[name].count;
+        storage.save({ collection: 'items', query: { name, count: self.items[name].count }, check: { name } }).then(saved => {
+            console.log(saved);
+        });
     }
 
     self.reduce = (name, count = 1) => {
@@ -25,11 +27,15 @@ export function Cart() {
             if (self.items[name].count == 0) {
                 self.remove(name);
             }
+            else {
+                storage.save({ collection: 'items', query: { name, count: self.items[name].count }, check: { name: name } });
+            }
         }
     }
 
     self.remove = (name) => {
         delete self.items[name];
+        storage.delete({ collection: 'items', query: { name: name } });
     }
 
     self.clear = () => {
@@ -37,6 +43,7 @@ export function Cart() {
             self.items[name].removeFromCart(self.items[name].count);
             delete self.items[name];
         }
+        storage.emptyCollection('items');
     }
 
     self.showEmpty = () => {
@@ -191,6 +198,17 @@ export function Cart() {
                 checkout.display(self.items);
             }
         });
+    }
+
+    self.init = (storedItems) => {
+        for (let i = 0; i < storedItems.length; i++) {
+            let item = kerdx.array.find(database, (content) => {
+                return content.name == storedItems[i].name;
+            });
+            item.count = storedItems[i].count;
+            item.cost = item.price * item.count;
+            self.items[item.name] = item;
+        }
     }
 
     return self;

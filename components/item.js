@@ -21,7 +21,7 @@ export function Item(details) {
                         {
                             element: 'i', attributes: { class: 'fas fa-minus single-item-remove' }
                         },
-                        { element: 'a', attributes: { class: 'single-item-count' }, text: '0' },
+                        { element: 'a', attributes: { class: 'single-item-count' }, text: self.count || 0 },
                         {
                             element: 'i', attributes: { class: 'fas fa-plus single-item-add' }
                         }

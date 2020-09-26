@@ -1,10 +1,11 @@
 window.system = {};
-import { Kerdx } from 'https://kade-95.github.io/kerdx/index.js';
+import { Kerdx, Database } from 'https://kade-95.github.io/kerdx/index.js';
 import { Item } from './components/item.js';
 import { data } from './data.js';
 import { Cart } from './components/cart.js';
 
 window.kerdx = new Kerdx();
+window.storage = new Database('Market');
 window.database = data;
 window.cart = new Cart();
 
@@ -12,18 +13,26 @@ const self = {};
 
 system.smallScreen = window.matchMedia("(min-width: 700px)");
 self.home = () => {
-    let main = document.body.makeElement({
-        element: 'main', attributes: { id: 'body-main' }, children: [
-            {
-                element: 'div', attributes: { id: 'body-items' }, children: (() => {
-                    let itemsList = [];
-                    for (let item of database) {
-                        itemsList.push(new Item(item).create())
-                    }
-                    return itemsList;
-                })()
-            }
-        ]
+    storage.find({ collection: 'items', many: true }).then(storedItems => {
+        cart.init(storedItems);
+        let main = document.body.makeElement({
+            element: 'main', attributes: { id: 'body-main' }, children: [
+                {
+                    element: 'div', attributes: { id: 'body-items' }, children: (() => {
+                        let itemsList = [];
+                        for (let item of database) {
+                            let found = kerdx.array.find(storedItems, s => {
+                                return s.name == item.name;
+                            });
+
+                            if(found != undefined) item.count = found.count;
+                            itemsList.push(new Item(item).create())
+                        }
+                        return itemsList;
+                    })()
+                }
+            ]
+        });
     });
 }
 
