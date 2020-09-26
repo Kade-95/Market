@@ -35,7 +35,9 @@ export function Cart() {
 
     self.remove = (name) => {
         delete self.items[name];
-        storage.delete({ collection: 'items', query: { name: name } });
+        storage.delete({ collection: 'items', query: { name: name } }).then(deleted=>{
+            console.log(deleted);
+        });
     }
 
     self.clear = () => {
@@ -43,7 +45,6 @@ export function Cart() {
             self.items[name].removeFromCart(self.items[name].count);
             delete self.items[name];
         }
-        storage.emptyCollection('items');
     }
 
     self.showEmpty = () => {
