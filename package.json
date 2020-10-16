@@ -18,7 +18,7 @@
     "bundle": "browserify ./src/main.js -p esmify > ./build/bundle.js -d --plugin tinyify",
     "watch": "nodemon index.js",
     "start": "node index.js",
-    "deploy": "npm run bundle && gh-pages -d build"
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
