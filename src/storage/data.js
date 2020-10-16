@@ -1,4 +1,4 @@
-export let data = [
+const data = [
     {
         name: "Mama'S Pride Premium Parboiled Rice 50 Kg",
         price: 50000,
@@ -222,3 +222,5 @@ export let data = [
         ]
     }
 ]; 
+
+module.exports = data;

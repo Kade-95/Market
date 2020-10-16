@@ -1,8 +1,8 @@
-export function Item(details) {
+function Item(details) {
     const self = details || {};
 
     self.create = () => {
-        self.element = kerdx.createElement({
+        self.element = base.createElement({
             element: 'span', attributes: { class: 'single-item', 'data-name': self.name }, children: [
                 { element: 'img', attributes: { class: 'single-item-image', src: self.image } },
                 {
@@ -66,7 +66,7 @@ export function Item(details) {
     }
 
     self.display = () => {
-        self.page = kerdx.createElement({
+        self.page = base.createElement({
             element: 'div', attributes: { class: 'single-item-page' }, children: [
                 self.element.cloneNode(true),
                 {
@@ -76,7 +76,7 @@ export function Item(details) {
                             element: 'span', attributes: { class: 'single-item-description' }, children: (() => {
                                 let descriptionList = [];
                                 for (let desc of self.description || []) {
-                                    descriptionList.push(kerdx.createElement({
+                                    descriptionList.push(base.createElement({
                                         element: 'span', attributes: { class: 'single-item-description-block' }, children: [
                                             { element: 'i', attributes: { class: 'fas fa-arrow-right' } },
                                             { element: 'a', attributes: { class: 'single-item-description-value' }, text: desc }
@@ -91,7 +91,7 @@ export function Item(details) {
             ]
         });
 
-        let popUp = kerdx.popUp(self.page, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: `Item: ${self.name}` });
+        let popUp = base.popUp(self.page, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: `Item: ${self.name}` });
 
         self.page.addEventListener('click', event => {
             if (event.target.classList.contains('single-item-add')) {
@@ -105,3 +105,5 @@ export function Item(details) {
 
     return self;
 }
+
+module.exports = Item;

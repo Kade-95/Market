@@ -1,7 +1,7 @@
-import { locations } from './../locations.js';
-import { coupons } from './../coupons.js';
+const locations = require('../storage/locations');
+const coupons = require('../storage/coupons');
 
-export function Checkout() {
+function Checkout() {
     const self = {};
     self.buyer = { state: Object.keys(locations)[0], deliveryType: 'Door delivery' };
 
@@ -12,7 +12,7 @@ export function Checkout() {
         }
         
         self.items = items;
-        self.page = kerdx.createElement({
+        self.page = base.createElement({
             element: 'div', attributes: { id: 'checkout-page' }, children: [
                 {
                     element: 'div', attributes: { id: 'checkout-address', class: 'checkout-section' }, children: [
@@ -72,7 +72,7 @@ export function Checkout() {
                                 let count = 0;
                                 for (let name in items) {
                                     count++;
-                                    itemList.push(kerdx.createElement({
+                                    itemList.push(base.createElement({
                                         element: 'span', attributes: { class: 'checkout-item' }, children: [
                                             { element: 'a', attributes: { class: 'cart-item-data' }, text: count },
                                             {
@@ -87,7 +87,7 @@ export function Checkout() {
                                         ]
                                     }))
                                 }
-                                itemList.unshift(kerdx.createElement({
+                                itemList.unshift(base.createElement({
                                     element: 'span', attributes: { id: 'checkout-header' }, children: [
                                         { element: 'a', attributes: { class: 'cart-header-title' }, text: 'S/N' },
                                         { element: 'a', attributes: { class: 'cart-header-title' }, text: 'Image' },
@@ -110,19 +110,19 @@ export function Checkout() {
                                 {
                                     element: 'span', attributes: { class: 'checkout-fees' }, children: [
                                         { element: 'label', text: 'Items total Fee' },
-                                        { element: 'a', attributes: { id: 'checkout-items-fee' }, text: `${kerdx.addCommaToMoney(self.getItemsTotal().toString())}(NGN)` }
+                                        { element: 'a', attributes: { id: 'checkout-items-fee' }, text: `${base.addCommaToMoney(self.getItemsTotal().toString())}(NGN)` }
                                     ]
                                 },
                                 {
                                     element: 'span', attributes: { class: 'checkout-fees' }, children: [
                                         { element: 'label', text: 'Delivery Fee' },
-                                        { element: 'a', attributes: { id: 'checkout-delivery-fee' }, text: `${kerdx.addCommaToMoney(self.getDeliveryFee().toString())}(NGN)` }
+                                        { element: 'a', attributes: { id: 'checkout-delivery-fee' }, text: `${base.addCommaToMoney(self.getDeliveryFee().toString())}(NGN)` }
                                     ]
                                 },
                                 {
                                     element: 'span', attributes: { class: 'checkout-fees' }, children: [
                                         { element: 'label', text: 'Total' },
-                                        { element: 'a', attributes: { id: 'checkout-total' }, text: `${kerdx.addCommaToMoney(self.getTotal().toString())}(NGN)` }
+                                        { element: 'a', attributes: { id: 'checkout-total' }, text: `${base.addCommaToMoney(self.getTotal().toString())}(NGN)` }
                                     ]
                                 }
                             ]
@@ -139,7 +139,7 @@ export function Checkout() {
             ]
         });
 
-        let popUp = kerdx.popUp(self.page, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: 'Checking Out' });
+        let popUp = base.popUp(self.page, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: 'Checking Out' });
 
         let sections = self.page.findAll('.checkout-section');
         let backButton = self.page.find('#checkout-back');
@@ -164,7 +164,7 @@ export function Checkout() {
                 sections[sectionNo].classList.add('active');
             }
             else if (pageClicked == nextButton) {
-                kerdx.object.copy(kerdx.jsonForm(sections[sectionNo]), self.buyer);
+                base.object.copy(base.jsonForm(sections[sectionNo]), self.buyer);
 
                 if (sectionNo == 0) {
                     if (self.buyer.address == '') {
@@ -239,19 +239,19 @@ export function Checkout() {
     self.applyCoupon = (name) => {
         if (coupons[name] == undefined) return;
         self.total = self.getTotal() * coupons[name].cut;
-        self.page.find('#checkout-total').textContent = `${kerdx.addCommaToMoney(self.total.toString())}(NGN)`;
+        self.page.find('#checkout-total').textContent = `${base.addCommaToMoney(self.total.toString())}(NGN)`;
     }
 
     self.updateFees = () => {
-        this.page.find('#checkout-items-fee').textContent = `${kerdx.addCommaToMoney(self.getItemsTotal().toString())}(NGN)`;
+        this.page.find('#checkout-items-fee').textContent = `${base.addCommaToMoney(self.getItemsTotal().toString())}(NGN)`;
 
-        this.page.find('#checkout-delivery-fee').textContent = `${kerdx.addCommaToMoney(self.getDeliveryFee().toString())}(NGN)`;
+        this.page.find('#checkout-delivery-fee').textContent = `${base.addCommaToMoney(self.getDeliveryFee().toString())}(NGN)`;
 
-        this.page.find('#checkout-total').textContent = `${kerdx.addCommaToMoney(self.getTotal().toString())}(NGN)`;
+        this.page.find('#checkout-total').textContent = `${base.addCommaToMoney(self.getTotal().toString())}(NGN)`;
     }
 
     self.printReceipt = () => {
-        let reciept = kerdx.createElement({
+        let reciept = base.createElement({
             element: 'span', attributes: { id: 'checkout-receipt' }, children: [
                 { element: 'a', attributes: { id: 'checkout-receipt-salute' }, text: `Hello ${self.buyer.name || 'User'},` },
                 { element: 'a', attributes: { id: 'checkout-receipt-message' }, text: 'Your order is being processed and will be delivered shortly' },
@@ -260,7 +260,7 @@ export function Checkout() {
             ]
         })
 
-        let popUp = kerdx.popUp(reciept, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: 'Checking Out' });
+        let popUp = base.popUp(reciept, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: 'Checking Out' });
 
         reciept.find('#checkout-receipt-continue').addEventListener('click', event=>{
             popUp.remove();
@@ -270,3 +270,5 @@ export function Checkout() {
     }
     return self;
 }
+
+module.exports = Checkout;

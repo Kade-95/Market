@@ -1,11 +1,12 @@
-import { Checkout } from './checkout.js';
+const Checkout = require('./checkout');
 let checkout = new Checkout();
-export function Cart() {
+
+function Cart() {
     const self = { items: {} };
 
     self.add = (name, count = 1) => {
         if (self.items[name] == undefined) {
-            let item = kerdx.array.find(database, (content) => {
+            let item = base.array.find(database, (content) => {
                 return content.name == name;
             });
             self.items[name] = item;
@@ -48,7 +49,7 @@ export function Cart() {
     }
 
     self.showEmpty = () => {
-        let empty = kerdx.createElement({
+        let empty = base.createElement({
             element: 'span', attributes: { id: 'empty-cart' }, text: 'Cart is Epmty. Please keep shopping'
         });
         return empty;
@@ -63,18 +64,18 @@ export function Cart() {
     }
 
     self.updateTotal = () => {
-        self.page.find('#cart-total').textContent = `${kerdx.addCommaToMoney(self.getTotal().toString())}(NGN)`;
+        self.page.find('#cart-total').textContent = `${base.addCommaToMoney(self.getTotal().toString())}(NGN)`;
     }
 
     self.display = () => {
         let count = 0;
-        self.page = kerdx.createElement({
+        self.page = base.createElement({
             element: 'div', attributes: { id: 'cart-page' }, children: [
                 {
                     element: 'div', attributes: { id: 'cart-items-container', style: { gridTemplateRows: `repeat(${Object.keys(self.items).length}, max-content)` } }, children: (() => {
                         let itemList = [];
                         for (let name in self.items) {
-                            itemList.push(kerdx.createElement({
+                            itemList.push(base.createElement({
                                 element: 'span', attributes: { class: 'cart-item', 'data-name': name }, children: [
                                     { element: 'a', attributes: { class: 'cart-item-data' }, text: count },
                                     {
@@ -97,7 +98,7 @@ export function Cart() {
                             itemList.push(self.showEmpty());
                         }
                         else {
-                            itemList.unshift(kerdx.createElement({
+                            itemList.unshift(base.createElement({
                                 element: 'span', attributes: { id: 'cart-header' }, children: [
                                     { element: 'a', attributes: { class: 'cart-header-title' }, text: 'S/N' },
                                     { element: 'a', attributes: { class: 'cart-header-title' }, text: 'Image' },
@@ -116,7 +117,7 @@ export function Cart() {
                 {
                     element: 'span', attributes: { id: 'cart-total-container' }, children: [
                         { element: 'label', attributes: {}, text: 'Total: ' },
-                        { element: 'a', attributes: { id: 'cart-total' }, text: `${kerdx.addCommaToMoney(self.getTotal().toString())}(NGN)` }
+                        { element: 'a', attributes: { id: 'cart-total' }, text: `${base.addCommaToMoney(self.getTotal().toString())}(NGN)` }
                     ]
                 },
                 {
@@ -129,13 +130,13 @@ export function Cart() {
             ]
         });
 
-        let popUp = kerdx.popUp(self.page, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: 'My Cart' });
+        let popUp = base.popUp(self.page, { attributes: { style: { width: system.smallScreen.matches ? '70%' : '100%', height: '100%', justifySelf: 'flex-end' } }, title: 'My Cart' });
 
         self.page.addEventListener('click', event => {
             if (event.target.classList.contains('cart-item-add')) {
                 let singleItem = event.target.getParents('.cart-item');
                 let name = singleItem.dataset.name;
-                let item = kerdx.array.find(database, (content) => {
+                let item = base.array.find(database, (content) => {
                     return content.name == name;
                 });
 
@@ -147,7 +148,7 @@ export function Cart() {
             else if (event.target.classList.contains('cart-item-reduce')) {
                 let singleItem = event.target.getParents('.cart-item');
                 let name = singleItem.dataset.name;
-                let item = kerdx.array.find(database, (content) => {
+                let item = base.array.find(database, (content) => {
                     return content.name == name;
                 });
 
@@ -168,7 +169,7 @@ export function Cart() {
             else if (event.target.classList.contains('cart-item-remove')) {
                 let singleItem = event.target.getParents('.cart-item');
                 let name = singleItem.dataset.name;
-                let item = kerdx.array.find(database, (content) => {
+                let item = base.array.find(database, (content) => {
                     return content.name == name;
                 });
 
@@ -203,7 +204,7 @@ export function Cart() {
 
     self.init = (storedItems) => {
         for (let i = 0; i < storedItems.length; i++) {
-            let item = kerdx.array.find(database, (content) => {
+            let item = base.array.find(database, (content) => {
                 return content.name == storedItems[i].name;
             });
             item.count = storedItems[i].count;
@@ -214,3 +215,5 @@ export function Cart() {
 
     return self;
 }
+
+module.exports = Cart;

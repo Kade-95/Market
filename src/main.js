@@ -1,17 +1,22 @@
 window.system = {};
-import { Kerdx, Database } from 'https://kade-95.github.io/kerdx/index.js';
-import { Item } from './components/item.js';
-import { data } from './data.js';
-import { Cart } from './components/cart.js';
+const { Base, IndexedLibrary, ArrayLibrary, AppLibrary } = require('@thekade/kerd/browser');
+const Item = require('./components/item');
+const data = require('./storage/data');
+const Cart = require('./components/cart');
+const base = require('@thekade/base');
 
-window.kerdx = new Kerdx();
-window.storage = new Database('Market');
+window.base = new Base(window);
+base.array = ArrayLibrary();
+const appLibrary = AppLibrary();
+
+window.storage = new IndexedLibrary('Market');
 window.database = data;
 window.cart = new Cart();
 
 const self = {};
 
 system.smallScreen = window.matchMedia("(min-width: 700px)");
+
 self.home = () => {
     storage.find({ collection: 'items', many: true }).then(storedItems => {
         cart.init(storedItems);
@@ -21,11 +26,11 @@ self.home = () => {
                     element: 'div', attributes: { id: 'body-items' }, children: (() => {
                         let itemsList = [];
                         for (let item of database) {
-                            let found = kerdx.array.find(storedItems, s => {
+                            let found = base.array.find(storedItems, s => {
                                 return s.name == item.name;
                             });
 
-                            if(found != undefined) item.count = found.count;
+                            if (found != undefined) item.count = found.count;
                             itemsList.push(new Item(item).create())
                         }
                         return itemsList;
@@ -72,20 +77,14 @@ self.render = () => {
 }
 
 self.route = () => {
-    let { pathname } = location;
-    pathname = pathname.replace('/Market', '');
-
-    document.body.removeChildren({ except: ['#body-header'] });
-    let active = document.body.find('.active.body-nav-link');
-    if (active) active.removeClass('active');
-    if (pathname == '/') {
-        self.home();
-    }
+    document.body.removeChildren({ except: ['#body-header'] });    
+    self.home();
 }
 
 document.addEventListener('DOMContentLoaded', event => {
     self.render();
-    kerdx.api.makeWebapp(event => {
+    
+    appLibrary.makeWebapp(event => {
         self.route();
     });
 });
