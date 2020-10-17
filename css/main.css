@@ -1,0 +1,20 @@
+#body-items{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--extra-font);
+    padding: var(--extra-font);
+    align-items: flex-start;
+}
+
+@media(min-width: 700px){
+    #body-items{
+        grid-template-columns: repeat(3, 1fr);
+    }    
+}
+
+
+@media(min-width: 1000px){
+    #body-items{
+        grid-template-columns: repeat(5, 1fr);
+    }    
+}

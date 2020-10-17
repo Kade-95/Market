@@ -1,0 +1,37 @@
+#body-header {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
+    align-items: center;
+    padding: 1em;
+}
+
+#body-header-controls {
+    display: grid;
+    grid-template-columns: 1fr repeat(2, max-content);
+    gap: 1em;
+    align-items: center;
+}
+
+#app-name {
+    font-size: var(--large-font);
+    color: var(--extra-color);
+    display: flex;
+    justify-content: center;
+}
+
+#search-box {
+    padding: 1em .1em;
+    border: 1px solid var(--extra-color);
+}
+
+#body-header-cart, #body-header-settings {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: .5em;
+}
+
+#body-header-cart:hover, #body-header-settings:hover {
+    color: var(--accient-color);
+    background-color: var(--extra-color);
+}

@@ -1,0 +1,26 @@
+:root {
+    --primary-color: rgb(255, 255, 255);
+    --secondary-color: rgb(0, 0, 0);
+    --accient-color: rgb(195, 251, 172);
+    --extra-color: rgb(77, 29, 29);
+    --small-font: .8em;
+    --normal-font: 1em;
+    --large-font: 1.2em;
+    --extra-font: 1.5em;
+}
+
+* {
+    padding: unset;
+    margin: unset;
+    border: unset;
+    outline: unset;
+}
+
+@media(min-width: 700px) {
+    * {
+        --small-font: 1em;
+        --normal-font: 1.2em;
+        --large-font: 1.5em;
+        --extra-font: 2em;
+    }
+}
