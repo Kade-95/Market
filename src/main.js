@@ -1,9 +1,8 @@
 window.system = {};
-const { Base, IndexedLibrary, ArrayLibrary, AppLibrary } = require('@thekade/kerd/browser');
+const { Base, IndexedLibrary, ArrayLibrary, AppLibrary } = require('kedio/browser');
 const Item = require('./components/item');
 const data = require('./storage/data');
 const Cart = require('./components/cart');
-const base = require('@thekade/base');
 
 window.base = new Base(window);
 base.array = ArrayLibrary();

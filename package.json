@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@thekade/kerd": "^1.0.12"
+    "kedio": "^1.0.3"
   },
   "devDependencies": {
     "browser-resolve": "^2.0.0",
